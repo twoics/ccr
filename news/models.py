@@ -1,6 +1,3 @@
-import uuid
-from io import BytesIO
-
 from PIL import Image
 from typing import Tuple
 from django.core.files.images import ImageFile
@@ -66,3 +63,10 @@ class News(models.Model):
         output_size = self._get_output_size(source_img)
         source_img.thumbnail(output_size)
         source_img.save(self.preview.file.name)
+
+    class Meta:
+        verbose_name = "News"
+        verbose_name_plural = "News"
+
+    def __str__(self):
+        return f'News {self.title} by {self.author.username}'
