@@ -56,7 +56,9 @@ class News(models.Model):
         return image.width, TARGET_MIN_SIDE_SIZE
 
     def save(self, *args, **kwargs):
-        self.preview = ImageFile(self.main_image.file)
+        if not self.preview.name:
+            self.preview = ImageFile(self.main_image.file)
+
         super().save()
 
         source_img = Image.open(self.preview.file)
