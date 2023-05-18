@@ -1,6 +1,14 @@
+import uuid
+from io import BytesIO
+
+from PIL import Image
+from typing import Tuple
+from django.core.files.images import ImageFile
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import AbstractUser
+
+TARGET_MIN_SIDE_SIZE = 200
 
 
 class User(AbstractUser):
@@ -41,3 +49,20 @@ class News(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Author'
     )
+
+    @staticmethod
+    def _get_output_size(image) -> Tuple[int, int]:
+        is_width_smaller = image.width < image.height
+
+        if is_width_smaller:
+            return TARGET_MIN_SIDE_SIZE, image.height
+        return image.width, TARGET_MIN_SIDE_SIZE
+
+    def save(self, *args, **kwargs):
+        self.preview = ImageFile(self.main_image.file)
+        super().save()
+
+        source_img = Image.open(self.preview.file)
+        output_size = self._get_output_size(source_img)
+        source_img.thumbnail(output_size)
+        source_img.save(self.preview.file.name)
