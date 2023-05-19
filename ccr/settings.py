@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+from datetime import time
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'news',
     'rest_framework',
     'django_summernote',
+    'constance',
 ]
 
 MIDDLEWARE = [
@@ -136,9 +138,19 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_SSL = False
 
 # Celery
-REDIS_CONNECTION = f'redis://{os.environ.get("REDIS_HOST")}:{os.environ.get("REDIS_PORT")}/0'
+REDIS_CONNECTION = f'redis://{os.environ.get("REDIS_HOST")}:{os.environ.get("REDIS_PORT")}'
 CELERY_BROKER_URL = REDIS_CONNECTION
 CELERY_RESULT_BACKEND = REDIS_CONNECTION
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# Constance
+CONSTANCE_REDIS_CONNECTION = REDIS_CONNECTION
+
+CONSTANCE_CONFIG = {
+    'RECEIVERS': ('twoics@mail.ru', 'List of emails that receive messages', str),
+    'SUBJECT': ('Здарова меченый', 'Message subject', str),
+    'MESSAGE': ('Выполнишь для меня пару заданий и мы в расчете', 'Message text', str),
+    'SEND_TIME': (time(12, 30), 'The time at which messages are sent each day', time)
+}
