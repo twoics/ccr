@@ -5,6 +5,7 @@ from datetime import datetime
 from django.core.mail import send_mail
 
 
+# TODO Send email to many receivers
 @app.task
 def send_daily_email():
     receiver_mail = config.RECEIVERS

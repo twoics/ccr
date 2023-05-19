@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_summernote',
     'constance',
+    'django_admin_geomap',
+    'places',
 ]
 
 MIDDLEWARE = [
