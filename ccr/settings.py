@@ -129,8 +129,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SMTP
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_HOST_USER = 'ccr.smtp@mail.ru'
-EMAIL_HOST_PASSWORD = 'QYSgz7d3tvey3Mb8fYmE'
-EMAIL_PORT = 2525
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_SSL = False
+
+# Celery
+REDIS_CONNECTION = f'redis://{os.environ.get("REDIS_HOST")}:{os.environ.get("REDIS_PORT")}/0'
+CELERY_BROKER_URL = REDIS_CONNECTION
+CELERY_RESULT_BACKEND = REDIS_CONNECTION
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
