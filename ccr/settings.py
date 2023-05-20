@@ -157,7 +157,7 @@ CONSTANCE_CONFIG = {
     'SUBJECT': ('Здарова меченый', 'Message subject', str),
     'MESSAGE': ('Выполнишь для меня пару заданий и мы в расчете', 'Message text', str),
     'SEND_TIME': (time(12, 30), 'The time at which messages are sent each day', time),
-    'WEATHER_RECEIVE_FREQUENCY': (1, 'How many times an hour to get info in interesting places')
+    'WEATHER_RECEIVE_FREQUENCY': (3, 'How many times an hour to get info in interesting places')
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
