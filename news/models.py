@@ -55,6 +55,7 @@ class News(models.Model):
             return TARGET_MIN_SIDE_SIZE, image.height
         return image.width, TARGET_MIN_SIDE_SIZE
 
+    # TODO Update case
     def save(self, *args, **kwargs):
         if not self.preview.name:
             self.preview = ImageFile(self.main_image.file)

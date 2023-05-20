@@ -39,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'news',
+    'constance',
     'rest_framework',
     'django_summernote',
-    'constance',
+    'django_admin_geomap',
+    'django_celery_beat',
+    'news',
+    'places',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +147,7 @@ CELERY_RESULT_BACKEND = REDIS_CONNECTION
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Krasnoyarsk'
 
 # Constance
 CONSTANCE_REDIS_CONNECTION = REDIS_CONNECTION
@@ -152,5 +156,21 @@ CONSTANCE_CONFIG = {
     'RECEIVERS': ('twoics@mail.ru', 'List of emails that receive messages', str),
     'SUBJECT': ('Здарова меченый', 'Message subject', str),
     'MESSAGE': ('Выполнишь для меня пару заданий и мы в расчете', 'Message text', str),
-    'SEND_TIME': (time(12, 30), 'The time at which messages are sent each day', time)
+    'SEND_TIME': (time(12, 30), 'The time at which messages are sent each day', time),
+    'WEATHER_RECEIVE_FREQUENCY': (3, 'How many times an hour to get info in interesting places')
 }
+
+CONSTANCE_CONFIG_FIELDSETS = {
+    'News': ('RECEIVERS', 'SUBJECT', 'MESSAGE', 'SEND_TIME'),
+    'Places': ('WEATHER_RECEIVE_FREQUENCY',),
+}
+
+# Weather
+WEATHER_API_KEY = os.environ.get('API_WEATHER')
+WEATHER_PROVIDER = os.environ.get('WEATHER_PROVIDER')
+
+# Result xlsx of weather retrieve
+XLSX_WEATHER_ROOT = f'{MEDIA_ROOT}weather/'
+if not os.path.isdir(XLSX_WEATHER_ROOT):
+    os.makedirs(XLSX_WEATHER_ROOT)
+PATH_WEATHER_XLSX = f'{XLSX_WEATHER_ROOT}weather.xlsx'
