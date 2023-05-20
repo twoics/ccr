@@ -39,11 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'news',
+    'constance',
     'rest_framework',
     'django_summernote',
-    'constance',
     'django_admin_geomap',
+    'django_celery_beat',
+    'news',
     'places',
 ]
 
