@@ -1,4 +1,5 @@
 import requests
+import xlsxwriter
 from django.conf import settings
 from dataclasses import dataclass
 from ..models import Weather, Places
@@ -64,3 +65,30 @@ def create_weather(weather_data: WeatherData, place: Places) -> Weather:
     return Weather.objects.create(
         **kwargs_data
     )
+
+
+def export_weather():
+    headers = [f.name for f in Weather._meta.get_fields()]
+
+    def create_header(work_sheet):
+        for col_num, data in enumerate(headers):
+            work_sheet.write(0, col_num, data)
+
+    weather_query = Weather.objects.select_related('place').order_by(
+        'place__title', 'measure_date'
+    )
+
+    # TODO CHECK QUERY COUNT
+    workbook = xlsxwriter.Workbook('weather.xlsx', )
+    worksheet = workbook.add_worksheet()
+    create_header(worksheet)
+
+    for index, weather in enumerate(weather_query):
+        weather_dict = weather.__dict__
+        weather_dict['place'] = weather.place.title
+        string_time = weather_dict['measure_date'].strftime('%m/%d/%Y/%H:%M:%S')
+        weather_dict['measure_date'] = string_time
+        for weather_name in headers:
+            worksheet.write(index + 1, headers.index(weather_name), weather_dict[weather_name])
+
+    workbook.close()
