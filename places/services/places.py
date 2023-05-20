@@ -1,6 +1,6 @@
 from openpyxl.worksheet.worksheet import Worksheet
 from typing import List
-from .models import Places
+from places.models import Places
 
 _PLACE_COL_IDX = 1
 _START_ROW_IDX = 1

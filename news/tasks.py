@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 @app.task
 def send_daily_email():
     receiver_mail = config.RECEIVERS
+    # TODO Replace: get from settings
     from_email = os.environ.get('EMAIL_HOST_USER')
     subject = config.SUBJECT
     message = config.MESSAGE
