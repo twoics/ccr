@@ -168,3 +168,9 @@ CONSTANCE_CONFIG_FIELDSETS = {
 # Weather
 WEATHER_API_KEY = os.environ.get('API_WEATHER')
 WEATHER_PROVIDER = os.environ.get('WEATHER_PROVIDER')
+
+# Result xlsx of weather retrieve
+XLSX_WEATHER_ROOT = f'{MEDIA_ROOT}weather/'
+if not os.path.isdir(XLSX_WEATHER_ROOT):
+    os.makedirs(XLSX_WEATHER_ROOT)
+PATH_WEATHER_XLSX = f'{XLSX_WEATHER_ROOT}weather.xlsx'

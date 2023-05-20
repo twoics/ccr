@@ -1,11 +1,14 @@
+from django.core.files import File
+from django.http import HttpResponse
+from openpyxl.reader.excel import load_workbook
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
-from rest_framework import status
-from openpyxl.reader.excel import load_workbook
 
-from .serializers import PlaceSerializer
 from .models import Places
-from .services import create_places
+from .serializers import PlaceSerializer
+from .services import create_places, export_weather
 
 
 class PlacesApiView(ListCreateAPIView):
@@ -25,3 +28,12 @@ class PlacesApiView(ListCreateAPIView):
 
         result_data = self.get_serializer(places, many=True)
         return Response(result_data.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def weather_xlsx(request):
+    path = export_weather()
+    file = open(path, 'rb')
+    response = HttpResponse(File(file), content_type='application/xlsx')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % 'weather.xlsx'
+    return response

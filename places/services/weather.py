@@ -67,7 +67,10 @@ def create_weather(weather_data: WeatherData, place: Places) -> Weather:
     )
 
 
-def export_weather():
+def export_weather() -> str:
+    """
+    :return: Path to generated file
+    """
     headers = [f.name for f in Weather._meta.get_fields()]
 
     def create_header(work_sheet):
@@ -79,7 +82,7 @@ def export_weather():
     )
 
     # TODO CHECK QUERY COUNT
-    workbook = xlsxwriter.Workbook('weather.xlsx', )
+    workbook = xlsxwriter.Workbook(settings.PATH_WEATHER_XLSX)
     worksheet = workbook.add_worksheet()
     create_header(worksheet)
 
@@ -92,3 +95,4 @@ def export_weather():
             worksheet.write(index + 1, headers.index(weather_name), weather_dict[weather_name])
 
     workbook.close()
+    return settings.PATH_WEATHER_XLSX
