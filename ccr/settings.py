@@ -160,7 +160,7 @@ CONSTANCE_CONFIG = {
 
 CONSTANCE_CONFIG_FIELDSETS = {
     'News': ('RECEIVERS', 'SUBJECT', 'MESSAGE', 'SEND_TIME'),
-    'Places': ('THEME',),
+    'Places': ('WEATHER_RECEIVE_FREQUENCY',),
 }
 
 # Weather
