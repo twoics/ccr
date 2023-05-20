@@ -12,8 +12,8 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'send-email-if-available': {
-        'task': 'news.tasks.send_email_if_available',
+    'send-daily-email': {
+        'task': 'news.tasks.send_daily_email',
         'schedule': crontab(
             minute=config.SEND_TIME.minute,
             hour=config.SEND_TIME.hour
@@ -27,3 +27,4 @@ app.conf.beat_schedule = {
         ),
     }
 }
+# TODO Calculate frequency func
