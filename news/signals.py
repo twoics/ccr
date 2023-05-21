@@ -16,7 +16,6 @@ def constance_updated(**kwargs):
         task=f'news.tasks.{send_daily_email.__name__}'
     )
 
-    # TODO Calculate frequency func
     task.crontab.minute = send_time.minute
     task.crontab.hour = send_time.hour
     task.crontab.save()

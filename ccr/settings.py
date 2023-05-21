@@ -59,7 +59,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ccr.urls'
-AUTH_USER_MODEL = 'news.User'
 
 TEMPLATES = [
     {

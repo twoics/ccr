@@ -5,15 +5,10 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import AbstractUser
 
-TARGET_MIN_SIDE_SIZE = 200
-
-
-class User(AbstractUser):
-    pass
-
 
 class News(models.Model):
     __previous_image = None
+    __TARGET_MIN_SIDE_SIZE = 200
 
     title = models.CharField(
         max_length=100,
@@ -43,23 +38,21 @@ class News(models.Model):
         default=datetime.now
     )
 
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name='Author'
+    author = models.CharField(
+        verbose_name='Author',
+        max_length=100
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__previous_image = self.main_image
 
-    @staticmethod
-    def _get_output_size(image) -> Tuple[int, int]:
+    def _get_output_size(self, image) -> Tuple[int, int]:
         is_width_smaller = image.width < image.height
 
         if is_width_smaller:
-            return TARGET_MIN_SIDE_SIZE, image.height
-        return image.width, TARGET_MIN_SIDE_SIZE
+            return self.__TARGET_MIN_SIDE_SIZE, image.height
+        return image.width, self.__TARGET_MIN_SIDE_SIZE
 
     def save(self, *args, **kwargs):
         if not self.preview.name or self.main_image != self.__previous_image:
@@ -77,4 +70,4 @@ class News(models.Model):
         verbose_name_plural = "News"
 
     def __str__(self):
-        return f'News {self.title} by {self.author.username}'
+        return f'News {self.title} by {self.author}'
