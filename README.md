@@ -25,8 +25,8 @@ python manage.py createsuperuser
 
 Url:
 
-- ```http://127.0.0.1:8000/api/places/```
-- ```http://127.0.0.1:8000/api/places/<id:int>```
+- ```http://127.0.0.1:8000/api/news/```
+- ```http://127.0.0.1:8000/api/news/<id:int>```
 
 #### Редактирование
 
