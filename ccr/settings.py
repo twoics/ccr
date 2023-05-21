@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -83,8 +83,12 @@ WSGI_APPLICATION = 'ccr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 
@@ -154,7 +158,7 @@ CONSTANCE_REDIS_CONNECTION = REDIS_CONNECTION
 
 CONSTANCE_CONFIG = {
     'RECEIVERS': (
-    'twoics@mail.ru;\nsecond_vozhzhov@mail.ru;\nvpapaiuny@gmail.com;', 'List of emails that receive messages', str),
+        'twoics@mail.ru;\nsecond_vozhzhov@mail.ru;\nvpapaiuny@gmail.com;', 'List of emails that receive messages', str),
 
     'SUBJECT': ('Здарова меченый', 'Message subject', str),
     'MESSAGE': ('Выполнишь для меня пару заданий и мы в расчете', 'Message text', str),
