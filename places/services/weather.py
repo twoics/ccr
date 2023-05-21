@@ -81,7 +81,6 @@ def export_weather() -> str:
         'place__title', 'measure_date'
     )
 
-    # TODO CHECK QUERY COUNT
     workbook = xlsxwriter.Workbook(settings.PATH_WEATHER_XLSX)
     worksheet = workbook.add_worksheet()
     create_header(worksheet)

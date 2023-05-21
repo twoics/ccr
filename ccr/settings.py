@@ -59,7 +59,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ccr.urls'
-AUTH_USER_MODEL = 'news.User'
 
 TEMPLATES = [
     {
@@ -139,6 +138,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_SSL = False
+EMAIL_DIVIDER = ';'
 
 # Celery
 REDIS_CONNECTION = f'redis://{os.environ.get("REDIS_HOST")}:{os.environ.get("REDIS_PORT")}'
@@ -153,7 +153,9 @@ CELERY_TIMEZONE = 'Asia/Krasnoyarsk'
 CONSTANCE_REDIS_CONNECTION = REDIS_CONNECTION
 
 CONSTANCE_CONFIG = {
-    'RECEIVERS': ('twoics@mail.ru', 'List of emails that receive messages', str),
+    'RECEIVERS': (
+    'twoics@mail.ru;\nsecond_vozhzhov@mail.ru;\nvpapaiuny@gmail.com;', 'List of emails that receive messages', str),
+
     'SUBJECT': ('Здарова меченый', 'Message subject', str),
     'MESSAGE': ('Выполнишь для меня пару заданий и мы в расчете', 'Message text', str),
     'SEND_TIME': (time(12, 30), 'The time at which messages are sent each day', time),
