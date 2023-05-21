@@ -13,6 +13,8 @@ class User(AbstractUser):
 
 
 class News(models.Model):
+    __previous_image = None
+
     title = models.CharField(
         max_length=100,
         verbose_name='News title',
@@ -47,6 +49,10 @@ class News(models.Model):
         verbose_name='Author'
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__previous_image = self.main_image
+
     @staticmethod
     def _get_output_size(image) -> Tuple[int, int]:
         is_width_smaller = image.width < image.height
@@ -55,9 +61,8 @@ class News(models.Model):
             return TARGET_MIN_SIDE_SIZE, image.height
         return image.width, TARGET_MIN_SIDE_SIZE
 
-    # TODO Update case
     def save(self, *args, **kwargs):
-        if not self.preview.name:
+        if not self.preview.name or self.main_image != self.__previous_image:
             self.preview = ImageFile(self.main_image.file)
 
         super().save()
