@@ -1,7 +1,15 @@
 import os
+from datetime import timedelta
+
 from celery import Celery
 from celery.schedules import crontab
 from constance import config
+
+
+def convert_minutes_to_seconds(float_minutes: float) -> int:
+    minutes, seconds = divmod(float_minutes * 60, 3600)
+    return minutes * 60 + seconds
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ccr.settings')
 
@@ -22,9 +30,8 @@ app.conf.beat_schedule = {
 
     'retrieve-weather-in-places': {
         'task': 'places.tasks.retrieve_weather_in_places',
-        'schedule': crontab(
-            minute=f'*/{int(60 / config.WEATHER_RECEIVE_FREQUENCY)}'
-        ),
+        'schedule': timedelta(
+            seconds=convert_minutes_to_seconds(60 / config.WEATHER_RECEIVE_FREQUENCY)
+        )
     }
 }
-# TODO Calculate frequency func
