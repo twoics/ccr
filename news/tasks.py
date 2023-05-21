@@ -1,15 +1,15 @@
-import os
-from ccr.celery import app
 from constance import config
+from django.conf import settings
 from django.core.mail import send_mail
+
+from ccr.celery import app
 
 
 # TODO Send email to many receivers
 @app.task
 def send_daily_email():
     receiver_mail = config.RECEIVERS
-    # TODO Replace: get from settings
-    from_email = os.environ.get('EMAIL_HOST_USER')
+    from_email = settings.EMAIL_HOST_USER
     subject = config.SUBJECT
     message = config.MESSAGE
 
